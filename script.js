@@ -3,50 +3,36 @@
 let table = document.querySelector('.chess-board');
 let selTd;
 let cellSteps = [];
+let cellStep;
 
-table.onclick = (event) => {
-    let target = event.target;
-    let td = target.closest('td');
-    if (!td) return; // клик вне <td>
-    if (!table.contains(td)) return;// нашли элемент, который нас интересует!
+table.onclick = (e) => {
+    table.querySelectorAll('td').forEach((cell) => {
+        cell.classList.remove('selected');
+        cell.classList.remove('highlight');
+    })
 
-    highlightSel(td);
-    highlightStep(td);
+    let target = e.target;
+    selTd = target.closest('td');
+    if (!selTd) return; // клик вне <td>
+    if (!table.contains(selTd)) return;// нашли элемент, который нас интересует!
+
+    highlight();
 }
 
-const highlightSel = (_selTd) => {
-    console.log(_selTd.cellIndex);
-    if (selTd) {
-        //selTd.classList.remove('highlight');
-        selTd.style.backgroundColor = '';
-    }
-    selTd = _selTd;
-    //selTd.classList.add('highlight');
-    selTd.style.backgroundColor = 'blue';
-}
+const highlight = () => { 
+    selTd.classList.add('selected');
 
-const highlightStep = (_selTd) => {
-    if (!cellSteps == []) {
-        cellSteps.forEach((cell) => {
-            cell = table.rows[cell[0]].cells[cell[1]];
-            //cell.classList.remove('highlight-step');
-            cell.style.backgroundColor = '';
-        });
-    }
-
-    cellSteps = getSteps(_selTd);
-    console.log(...cellSteps);
-
+        cellSteps = getSteps();
     cellSteps.forEach((cell) => {
-        cell = table.rows[cell[0]].cells[cell[1]];
-        //cellStep.classList.add('highlight-step');
-        cell.style.backgroundColor = 'green';
+        cellStep = table.rows[cell[0]].cells[cell[1]];
+        cellStep.classList.add('highlight');
+            
     });
 }
 
-const getSteps = (cell) => {
-    let rIndex = cell.parentElement.rowIndex;
-    let cIndex = cell.cellIndex;
+const getSteps = () => {
+    let rIndex = selTd.parentElement.rowIndex;
+    let cIndex = selTd.cellIndex;
     let x;
     let y;
     let result = [];
