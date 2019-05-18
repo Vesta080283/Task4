@@ -25,20 +25,17 @@
         background: #000;
     }
 
-.hidden {
-    background-color: white;
-}
-
 .border {
     text-align: center;
     border: 2px #000 solid;
     padding: 5px;
 }
 
-.highlight {
-    background-color: blue;
+.selected {
+    background: blue !important;
 }
 
-.highlight-step {
-    background-color: green;
+
+ .highlight{
+    background: aqua !important;
 }
